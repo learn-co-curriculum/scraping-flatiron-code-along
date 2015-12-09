@@ -77,27 +77,27 @@ Run the `Course` specs again and we should be passing all the tests. We're ready
 
 Start by running the `Scraper` specs with the `rspec spec/scraper_spec.rb` line in your terminal. You should see failing tests and describe a number of methods. Let's run through the desired behavior of each method: 
 
-##### `.get_page`
+##### `get_page`
 
-The `.get_page` method will be responsible for using Nokogiri and `open-uri` to grab the entire HTML document from the web page. 
+The `get_page` method will be responsible for using Nokogiri and `open-uri` to grab the entire HTML document from the web page. 
 
-##### `.get_courses`
+##### `get_courses`
 
-The `.get_courses` method will be responsible for using a CSS selector to grab all of the HTML elements that contain a course. In other words, the return value of this method should be a collection of Nokogiri XML elements, each of which describes a course offering. We're going to have to examine the page with the element inspector to find the CSS selector that contains the courses. 
+The `get_courses` method will be responsible for using a CSS selector to grab all of the HTML elements that contain a course. In other words, the return value of this method should be a collection of Nokogiri XML elements, each of which describes a course offering. We're going to have to examine the page with the element inspector to find the CSS selector that contains the courses. 
 
-##### `.make_courses`
+##### `make_courses`
 
-The `.make_courses` method will be responsible for actually instantiating `Course` objects and giving each course object the correct `title`, `schedule` and `description` attribute that we scraped from the page. 
+The `make_courses` method will be responsible for actually instantiating `Course` objects and giving each course object the correct `title`, `schedule` and `description` attribute that we scraped from the page. 
 
-##### `.print_courses`
+##### `print_courses`
 
-The `.print_courses` method we made for you! It calls on `.make_courses` and then iterates over all of the courses that gets created to `puts` out a list of course offerings. We gave you this freebie so that we can easily see how cool it is to scrape data and make real live Ruby objects with it. 
+The `print_courses` method we made for you! It calls on `make_courses` and then iterates over all of the courses that gets created to `puts` out a list of course offerings. We gave you this freebie so that we can easily see how cool it is to scrape data and make real live Ruby objects with it. 
 
-Now that we have a basic concept of the methods we're expected to build, we're going to ignore them (surprise!). We've already discussed how tricky it is to scrape data from a web page. It is a very precise process and it takes *a lot* of playing around in Pry to find the right CSS selectors for the desired data. So, we're going to start by building our `.get_page` method. **As soon as we get the HTML document using Nokogiri, we will drop into our program using Pry and play around with CSS selectors until we find what we're looking for**. Once we have working code, we'll worry about organizing the appropriate code into the above-described methods. 
+Now that we have a basic concept of the methods we're expected to build, we're going to ignore them (surprise!). We've already discussed how tricky it is to scrape data from a web page. It is a very precise process and it takes *a lot* of playing around in Pry to find the right CSS selectors for the desired data. So, we're going to start by building our `get_page` method. **As soon as we get the HTML document using Nokogiri, we will drop into our program using Pry and play around with CSS selectors until we find what we're looking for**. Once we have working code, we'll worry about organizing the appropriate code into the above-described methods. 
 
 ### Getting the HTML Doc and Finding Our Selectors
 
-Open up `lib/scraper.rb` and define the `.get_page` method: 
+Open up `lib/scraper.rb` and define the `get_page` method: 
 
 ```ruby
 require 'nokogiri'
@@ -115,7 +115,7 @@ class Scraper
 end
 ```
 
-Notice that we are already requiring Nokigiri, open-uri and Pry at the tope of the file. We are ready to use Nokogiri and open-uri to get our HTML. Add the following line to your `.get_page` method: 
+Notice that we are already requiring Nokigiri, open-uri and Pry at the tope of the file. We are ready to use Nokogiri and open-uri to get our HTML. Add the following line to your `get_page` method: 
 
 ```ruby
 doc = Nokogiri::HTML(open("http://learn-co-curriculum.github.io/site-for-scraping/courses"))
@@ -287,7 +287,7 @@ We know how to grab an array-like collection of course elements from the page wi
 
 So, we can iterate over the collection, make a new `Course` instance for each course offering element we are iterating over, and assign that instance the scraped title, schedule and description, using the working code for those attributes that we already figured out. 
 
-In your `.get_page` method of the `Scraper` class, place the following code: 
+In your `get_page` method of the `Scraper` class, place the following code: 
 
 ```ruby
 require 'nokogiri'
@@ -321,9 +321,9 @@ Wow! We have a collection of `Course` objects, each of which have attributes tha
 
 ### Extracting Our Code into Methods
 
-Okay, we have some great working code. But, it doesn't really *all* belong in the `.get_page` method. The `.get_page` method should be responsible for *just getting the page*. Let's do some refactoring and get our `Scraper` tests passing!
+Okay, we have some great working code. But, it doesn't really *all* belong in the `get_page` method. The `get_page` method should be responsible for *just getting the page*. Let's do some refactoring and get our `Scraper` tests passing!
 
-#### `.get_page`
+#### `get_page`
 
 This method should contain *only the code for getting the HTML document*. Place the following code in your `.get_page` method and *comment out the rest of that method*. We'll need to refer to that code to get our other tests passing. 
 
@@ -353,9 +353,9 @@ end
 
 Run your `Scraper` test suite with `rspec spec/scraper_spec.rb`. Your first test should be passing. 
 
-#### `.get_courses`
+#### `get_courses`
 
-The `.get_courses` method should operate on the HTML page (which is the return value of the `.get_page` method) and return the collection of Nokogiri XML elements that describe each course. So, we'll call on our `.get_page` method inside the `.get_courses` method.
+The `get_courses` method should operate on the HTML page (which is the return value of the `get_page` method) and return the collection of Nokogiri XML elements that describe each course. So, we'll call on our `get_page` method inside the `get_courses` method.
 
 ```ruby
 def get_courses
@@ -365,9 +365,9 @@ end
 
 Run the test suite again and the second test should be passing. 
 
-#### `.make_courses`
+#### `make_courses`
 
-The `.make_courses` method should operate on the collection of course offering Nokogiri XML elements that was returned by the `.get_courses` method. The `.make_courses` method should iterate over the collection and make a new instance of `Course` class for each one while assigning it the appropriate attributes: 
+The `make_courses` method should operate on the collection of course offering Nokogiri XML elements that was returned by the `get_courses` method. The `make_courses` method should iterate over the collection and make a new instance of `Course` class for each one while assigning it the appropriate attributes: 
 
 ```ruby
 def make_courses
@@ -432,5 +432,3 @@ end
 
 Scraper.new.print_courses
 ```
-
-<a href='https://learn.co/lessons/scraping-flatiron-code-along' data-visibility='hidden'>View this lesson on Learn.co</a>
