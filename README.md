@@ -359,7 +359,7 @@ The `#get_courses` method should operate on the HTML page (which is the return v
 
 ```ruby
 def get_courses
-  self.get_page.css(".post")
+  get_page.css(".post")
 end
 ```
 
@@ -405,7 +405,7 @@ class Scraper
   end
 
   def get_courses
-    self.get_page.css(".post")
+    get_page.css(".post")
   end
 
   def make_courses
@@ -418,7 +418,7 @@ class Scraper
   end
 
   def print_courses
-    self.make_courses
+    make_courses
     Course.all.each do |course|
       if course.title
         puts "Title: #{course.title}"
